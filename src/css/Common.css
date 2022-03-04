@@ -1,0 +1,28 @@
+
+body, div, h1, dl, dt, dd, ul, ol, li, em, p, sapn, button, a {
+	margin: 0;
+	padding: 0;
+}
+
+a{
+	text-decoration:none;
+	link: black;
+	vlink : black;
+}
+
+#container {
+	border: 1px;
+	max-width: 1080px;
+	width: 100%;
+	margin: auto;
+}
+
+#titleBox {
+	font-size: 30px;
+	left:50%;
+	top:50px;
+	width: 80%;
+	margin: auto;
+	text-align: center;
+	padding-top: 30px;
+}

@@ -1,0 +1,17 @@
+.login-block {outline-color: #ef4746;
+    outline-style: solid; padding: 30px; padding-top: 5px; padding-bottom: 40px; margin-left: 20%; margin-right: 20%;
+ }
+
+ .loginButton{
+ background-color: #ef4746; color: white; width: 15rem; padding-inline: 67px; padding-top: 3px; padding-bottom: 3px; margin: 10px; border-color: #ef4746;
+ }
+
+ .joinButton{
+background-color: darkblue; color: white; width: 15rem; padding-inline: 67px; padding-top: 3px; padding-bottom: 3px; margin: 10px; border-color: darkblue;
+ }
+
+ .globalBox{
+    max-width: 1080px;
+    width: 100%;
+    margin: 0 auto;
+ }

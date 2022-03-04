@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import Login from "./page/Login";
+import Join from "./page/Join";
+import Charge from "./page/charge/Charge";
+import Payment from "./page/payment/Payment";
+import LoginAlert from "./page/LoginAlert";
+import PaymentHistory from "./page/paymentHistory/PaymentHistory";
+import Mcharge from "./libraries/import/Mcharge";
+import Mpayment from "./libraries/import/Mpayment";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/join" element={<Join />} />
+      <Route path="/charge" element={<Charge />} />
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/myPage" element={<PaymentHistory />} />
+      <Route path="/loginAlert" element={<LoginAlert />} />
+      <Route path="/Mcharge" element={<Mcharge />} />
+      <Route path="/Mpayment" element={<Mpayment />} />
+    </Routes>
   );
 }
 
