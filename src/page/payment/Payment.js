@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PayMethodData from "../../datas/PayMethodData";
 import styled from "styled-components";
 import Select from "../../components/inputs/Select";
 import Option from "../../components/inputs/Option";
@@ -89,12 +90,7 @@ const Payment = (data) => {
   const [Selected, setSelected] = useState(""); //첫 번째 dropdown(가맹점)
   const [Selected2, setSelected2] = useState(""); //두 번째 dropdown(물품번호goodsSn)
   const [payMean, setPayMean] = useState(""); //10:계좌, 11:카드, 12:머니
-
-  const payment_method = [
-    { pay_method: "card", name: "KG이니시스" },
-    { pay_method: "trans", name: "실시간계좌이체" },
-    { pay_method: "money", name: "머니" },
-  ];
+  const [payment_method, setPaymentMethod] = useState(PayMethodData);
 
   //결제수단
   const paymentMethodChange = (value) => {
@@ -140,10 +136,7 @@ const Payment = (data) => {
 
   const handleSelect2 = (e) => {
     setSelected2(e.target.value);
-    console.log("물품명 >> ", e.target.name);
-    console.log("goodsSn>> ", e.target.value);
     sessionStorage.setItem("goodsSn", e.target.value);
-    console.log('sessionStorage.getItem("goodsSn")>>', sessionStorage.getItem("goodsSn"));
 
     //위와 마찬가지로 또 axios 날려서 where로 goodsSn에 해당하는 물품만 가져오도록 api 쏴준다.
     axios

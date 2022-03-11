@@ -27,7 +27,7 @@ const Header = () => {
           </li>
 
           <li>
-            <Link to="payment">머니결제</Link>
+            <Link to="payment">상품결제</Link>
           </li>
           <li>
             <Link to="myPage">거래내역</Link>

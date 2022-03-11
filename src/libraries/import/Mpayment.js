@@ -17,7 +17,7 @@ const Mpayment = () => {
           //회원 머니 잔고 차감(update) 및 '거래'이력테이블 추가(insert) api , 결제수단이 money일 때
           let data2 = { memberSn: sessionStorage.getItem("memberSn"), chargeAmt: sessionStorage.getItem("price") };
           axios
-            .post("http://localhost:9999/api/v1/user/payment", data2, { headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") } })
+            .post("http://localhost:9999/api/v1/payment/money", data2, { headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") } })
             .then((res) => {
               console.log("payment API Success..", res);
               //상품테이블 update(재고-1, 판매수량+1)
@@ -35,7 +35,7 @@ const Mpayment = () => {
                     goods_sn: sessionStorage.getItem("goodsSn"),
                   };
                   axios
-                    .post("http://localhost:9999/api/v1/user/payHistoryInsert", data3, {
+                    .post("http://localhost:9999/api/v1/payment/history", data3, {
                       headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") },
                     })
                     .then((res) => {
@@ -68,9 +68,9 @@ const Mpayment = () => {
         //회원 잔고 차감(update) 및 '거래'이력 transferMoney테이블  추가(insert) api, 결제수단이 카드or계좌이체 일 때
         let data2 = { memberSn: sessionStorage.getItem("memberSn"), chargeAmt: sessionStorage.getItem("price"), payMeanCd: sessionStorage.getItem("payMean") };
         axios
-          .post("http://localhost:9999/api/v1/user/payment_card", data2, { headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") } })
+          .post("http://localhost:9999/api/v1/payment/cardAccount", data2, { headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") } })
           .then((res) => {
-            console.log("payment_card API Success..", res);
+            console.log("cardAccount API Success..", res);
             //상품테이블 update(재고-1, 판매수량+1)
             axios
               .get("http://localhost:9999/api/v1/user/updateProductPay?goodsSn=" + sessionStorage.getItem("goodsSn"), {
@@ -86,7 +86,7 @@ const Mpayment = () => {
                   goods_sn: sessionStorage.getItem("goodsSn"),
                 };
                 axios
-                  .post("http://localhost:9999/api/v1/user/payHistoryInsert", data3, {
+                  .post("http://localhost:9999/api/v1/payment/history", data3, {
                     headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") },
                   })
                   .then((res) => {
@@ -105,7 +105,7 @@ const Mpayment = () => {
               });
           })
           .catch((err) => {
-            console.log("payment_card API fail...", err);
+            console.log("cardAccount API fail...", err);
             alert("결제를 실패했습니다...");
             navigate("../myPage");
           });

@@ -16,7 +16,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   function loginProc(e) {
-    e.preventDefault(); //이걸 안하면 계속 redirect 됨?? why?
+    //e.preventDefault();
     const data = { id, pw };
     console.log(data);
 
@@ -33,7 +33,6 @@ const Login = () => {
         // console.log("서버와 통신 성공>> ", response);
         // console.log("토큰 >>", response.data.data);
         sessionStorage.setItem("token", response.data.data);
-        console.log("token>>> ", response.data.data);
         let token = sessionStorage.getItem("token");
 
         //해당id에 해당하는 회원정보 selet 하기
@@ -87,6 +86,13 @@ const Login = () => {
     console.log("e.target.value>>", e.target.value);
   }
 
+  //엔터키
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      loginProc();
+    }
+  };
+
   return (
     <>
       <Container>
@@ -96,32 +102,45 @@ const Login = () => {
             <h1 style={{ color: " #ef4746", textAlign: "center" }}>E4. Pay Service</h1>
             <h2 style={{ fontSize: "small", textAlign: "center" }}>서비스 이용을 위해서는 로그인이 필요합니다.</h2>
           </div>
-          <div style={{ textAlign: "center" }}>
-            <div>
-              id <input type="text" id="id" value={id} onChange={chkId} style={{ marginTop: "15px", textAlign: "center" }} />
+          <div style={{ textAlign: "center", marginTop: "5%" }}>
+            <div id="idBox">
+              <FormControl variant="standard">
+                <InputLabel htmlFor="input-with-icon-adornment">ID를 입력해주세요</InputLabel>
+                <Input
+                  id="input-with-icon-adornment"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  }
+                  value={id}
+                  onChange={chkId}
+                />
+              </FormControl>
             </div>
-            <div>
-              pw <input type="password" id="pw" value={pw} onChange={chkPw} style={{ marginTop: "5px", textAlign: "center" }} />
+            <div id="pwBox">
+              <FormControl variant="standard" style={{ marginTop: "5%" }}>
+                <InputLabel htmlFor="input-with-icon-adornment">PW를 입력해주세요</InputLabel>
+                <Input
+                  id="input-with-icon-adornment"
+                  startAdornment={
+                    <InputAdornment position="start">
+                      <AccountCircle />
+                    </InputAdornment>
+                  }
+                  type="password"
+                  value={pw}
+                  onChange={chkPw}
+                  onKeyPress={handleKeyPress}
+                />
+              </FormControl>
             </div>
-            {/* <FormControl variant="standard">
-              <InputLabel htmlFor="input-with-icon-adornment">ID를 입력해주세요</InputLabel>
-              <Input
-                id="input-with-icon-adornment"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <AccountCircle />
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-            <FormControl variant="standard">
-              <InputLabel htmlFor="input-with-icon-adornment">PW를 입력해주세요</InputLabel>
-              <Input id="input-with-icon-adornment" />
-            </FormControl> */}
-            <div>
+            <div style={{ marginTop: "5%" }}>
               <button className="loginButton" onClick={loginProc}>
                 로그인
               </button>
+            </div>
+            <div>
               <button
                 className="joinButton"
                 onClick={() => {

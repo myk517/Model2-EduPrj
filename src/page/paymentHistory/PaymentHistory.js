@@ -30,7 +30,6 @@ const PaymentHistory = () => {
 
   //결제수단
   const handler_payMean = (e) => {
-    console.log("결제수단>>", e.target.value);
     setPayMean(e.target.value);
   };
 
@@ -47,44 +46,22 @@ const PaymentHistory = () => {
   const searchFunc = () => {
     let data = { member_sn: memberSn, start_date: start_date, end_date: end_date, offset: pageIndex, pay_mean_cd: payMean };
     axios
-      .post("http://localhost:9999/api/v1/user/myPageSearchList", data, {
+      .post("http://localhost:9999/api/v1/history/list", data, {
         headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
       })
       .then((res) => {
-        console.log("search API success...", res);
-        console.log("payMean>>>>>", payMean);
-        setHistoryList(res.data);
-        //검색 시의 전체 데이터를 구하는 axios를 보내고 allRow에 set해준다.
-        let data2 = { member_sn: memberSn, start_date: start_date, end_date: end_date, pay_mean_cd: payMean };
-        axios
-          .post("http://localhost:9999/api/v1/user/allRowSearch", data2, {
-            headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-          })
-          .then((res) => {
-            console.log("allRowSearch API success..");
-            setAllRow(Math.ceil(res.data.length / 10)); //10개씩 출력할 것이니까 10로 나눈후 올림해준 만큼 pageindex 노출.
-
-            console.log("allRow>> ", allRow);
-          })
-          .catch((err) => {
-            console.log("allRow API fail...", err);
-          });
-        setAllRow(Math.ceil(res.data.length / 10));
+        console.log("history list API success...", res);
+        setHistoryList(res.data.list);
+        setAllRow(Math.ceil(res.data.count.count / 10)); //왜 res.data.count가 아니라 res.data.count.count로 들어감?
       })
       .catch((err) => {
-        console.log("search API fail...", err);
+        console.log("history list API fail...", err);
       });
   };
 
   let navigate = useNavigate();
   let [historyList, setHistoryList] = useState([]);
   let [allRow, setAllRow] = useState("");
-  let [allData, setAllData] = useState("");
-
-  //총 행의 갯수(게시글 수) 구하기
-  // useEffect(() => {
-  //   setAllRow(historyList.length);
-  // }, [historyList]);
 
   //천단위 콤마 함수
   const numberWithCommas = (x) => {
@@ -104,52 +81,52 @@ const PaymentHistory = () => {
     setPageIndex((e.target.value - 1) * 10);
   };
 
-  const myPageAPI = (e) => {
-    console.log("pageIndex>>", pageIndex);
+  // const myPageAPI = (e) => {
+  //   console.log("pageIndex>>", pageIndex);
 
-    if (sessionStorage.getItem("token") != null) {
-      //검색조건이 없을 때
-      if (start_date === null || start_date === "" || end_date === null || end_date === "") {
-        axios
-          .get("http://localhost:9999/api/v1/user/myPageList", {
-            params: {
-              member_sn: memberSn,
-              offset: pageIndex,
-            },
-            headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-          })
-          .then((res) => {
-            console.log("myPageList API success.."); //res.data[0].거래금액, res.data[0].rownum
-            // setAllData(res.data.rownum);
+  //   if (sessionStorage.getItem("token") != null) {
+  //     //검색조건이 없을 때
+  //     if (start_date === null || start_date === "" || end_date === null || end_date === "") {
+  //       axios
+  //         .get("http://localhost:9999/api/v1/user/myPageList", {
+  //           params: {
+  //             member_sn: memberSn,
+  //             offset: pageIndex,
+  //           },
+  //           headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+  //         })
+  //         .then((res) => {
+  //           console.log("myPageList API success.."); //res.data[0].거래금액, res.data[0].rownum
+  //           // setAllData(res.data.rownum);
 
-            setHistoryList(res.data);
-            //전체 데이터를 구하는 axios를 보내고 allRow에 set해준다.
-            axios
-              .get("http://localhost:9999/api/v1/user/allRow?member_sn=" + memberSn, {
-                headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-              })
-              .then((res) => {
-                console.log("allRow API success..");
-                setAllRow(Math.ceil(res.data.length / 10)); //10개씩 출력할 것이니까 10로 나눈후 올림해준 만큼 pageindex 노출.
+  //           setHistoryList(res.data);
+  //           //전체 데이터를 구하는 axios를 보내고 allRow에 set해준다.
+  //           axios
+  //             .get("http://localhost:9999/api/v1/user/allRow?member_sn=" + memberSn, {
+  //               headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+  //             })
+  //             .then((res) => {
+  //               console.log("allRow API success..");
+  //               setAllRow(Math.ceil(res.data.length / 10)); //10개씩 출력할 것이니까 10로 나눈후 올림해준 만큼 pageindex 노출.
 
-                setAllData(res.data.length);
-              })
-              .catch((err) => {
-                console.log("allRow API fail...", err);
-              });
-          })
-          .catch((err) => {
-            console.log("myPageList Fail...", err);
-          });
-      } else {
-        //검색 조건이 있을 때
-        searchFunc();
-      }
-    } //End of session if문
-  };
+  //               setAllData(res.data.length);
+  //             })
+  //             .catch((err) => {
+  //               console.log("allRow API fail...", err);
+  //             });
+  //         })
+  //         .catch((err) => {
+  //           console.log("myPageList Fail...", err);
+  //         });
+  //     } else {
+  //       //검색 조건이 있을 때
+  //       searchFunc();
+  //     }
+  //   } //End of session if문
+  // };
 
   useEffect(() => {
-    myPageAPI();
+    searchFunc();
   }, [pageIndex]);
 
   return (

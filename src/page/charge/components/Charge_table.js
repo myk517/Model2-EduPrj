@@ -8,7 +8,7 @@ import { Table, Button } from "react-bootstrap";
 const Charge_table = (props) => {
   return (
     <>
-      <Table striped bordered hover>
+      {/* <Table striped bordered hover>
         <thead>
           <tr>
             <th>구분</th>
@@ -38,7 +38,8 @@ const Charge_table = (props) => {
           </tr>
         </tbody>
       </Table>
-      <Button variant="danger">충전하기</Button>
+      
+      <Button variant="danger">충전하기</Button> */}
     </>
   );
 };

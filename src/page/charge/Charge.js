@@ -7,6 +7,7 @@ import { TextField } from "@mui/material";
 import RequestPay from "../../libraries/import/Import";
 import Select from "../../components/inputs/Select";
 import Option from "../../components/inputs/Option";
+import PayMethodData from "../../datas/ChargePayMethodData";
 
 const Charge = () => {
   const [money_blce, setMoney_blce] = useState(Number(sessionStorage.getItem("moneyBlce")));
@@ -14,11 +15,7 @@ const Charge = () => {
   const [money_expect, setMoneyExpect] = useState(Number(money_blce + money_charge));
   const [choice_payment_method, setChoicePaymentMethod] = useState("");
   const [payMean, setPayMean] = useState(""); //10:계좌, 11:카드, 12:머니,
-
-  const payment_method = [
-    { pay_method: "card", name: "KG이니시스" },
-    { pay_method: "trans", name: "실시간계좌이체" },
-  ];
+  const [payment_method, setPaymentMethod] = useState(PayMethodData);
 
   //결제수단
   const paymentMethodChange = (value) => {
@@ -70,7 +67,6 @@ const Charge = () => {
   useEffect(() => {
     setMoneyExpect(money_blce + money_charge);
     handler_payMean();
-    console.log("payMean>> ", payMean);
   }, [<Option />]);
 
   const handler_money_charge = (e) => {
@@ -78,27 +74,27 @@ const Charge = () => {
   };
 
   //하위 컴포넌트(Charge_table)에서 쓰인다.
-  const funcCharge = () => {
-    let data = { memberSn: sessionStorage.getItem("memberSn"), chargeAmt: money_charge, payMeanCd: payMean };
-    axios
-      .post("http://localhost:9999/api/v1/user/charge2", data, { headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") } })
-      .then((res) => {
-        console.log("funcCharge Success..");
-        let data2 = { chargeAmt: money_charge };
-        axios
-          .put("http://localhost:9999/api/v1/user/charge/memMoney", data2)
-          .then(() => {
-            alert("충전이 완료되었습니다!");
-            navigate("myPage");
-          })
-          .catch((err) => {
-            console.log("charge/memMoney API fail... ", err);
-          });
-      })
-      .catch((err) => {
-        console.log("charge2 API fail... ", err);
-      });
-  };
+  // const funcCharge = () => {
+  //   let data = { memberSn: sessionStorage.getItem("memberSn"), chargeAmt: money_charge, payMeanCd: payMean };
+  //   axios
+  //     .post("http://localhost:9999/api/v1/user/charge2", data, { headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") } })
+  //     .then((res) => {
+  //       console.log("funcCharge Success..");
+  //       let data2 = { chargeAmt: money_charge };
+  //       axios
+  //         .put("http://localhost:9999/api/v1/user/charge/memMoney", data2)
+  //         .then(() => {
+  //           alert("충전이 완료되었습니다!");
+  //           navigate("myPage");
+  //         })
+  //         .catch((err) => {
+  //           console.log("charge/memMoney API fail... ", err);
+  //         });
+  //     })
+  //     .catch((err) => {
+  //       console.log("charge2 API fail... ", err);
+  //     });
+  // };
 
   const paymentTry = () => {
     if (!money_charge) {
@@ -140,7 +136,7 @@ const Charge = () => {
       </div>
     </>
   );
-};
+};;
 
 const InnerBox = styled.div`
   border: 1px;

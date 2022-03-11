@@ -192,6 +192,7 @@ const Join = () => {
       });
   };
 
+
   return (
     <>
       <section className="page-section text-white" style={{ marginTop: "10%" }}>
@@ -255,6 +256,7 @@ const Join = () => {
                       id="phone"
                       name="mobile_no"
                       pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
+                      value={phone}
                       onChange={handlePhone}
                       required
                     />
@@ -276,7 +278,7 @@ const Join = () => {
                 <th>E-Mail</th>
                 <td>
                   <div className="input-group mb-3">
-                    <input type="tel" className="form-control" placeholder="ex)www@www.com" id="emaill" name="email_addr" style={{ width: "70%" }} onChange={handleEmail} required />
+                    <input type="email" className="form-control" placeholder="ex)www@www.com" id="emaill" name="email_addr" style={{ width: "70%" }} onChange={handleEmail} required />
                   </div>
                   <div style={{ display: "none" }} id="target1"></div>
                 </td>
@@ -286,7 +288,7 @@ const Join = () => {
 
                 <td>
                   <div className="input-group mb-3">
-                    <input type="text" className="form-control" id="cdd" placeholder="ex)08593" value={cdd} style={{ width: "70%" }} required />
+                    <input type="number" className="form-control" id="cdd" placeholder="ex)08593" value={cdd} style={{ width: "70%" }} required />
                     <button className="btn btn-primary" type="button" id="registerChk" onClick={onChangeOpenPost}>
                       우편번호 입력
                     </button>
