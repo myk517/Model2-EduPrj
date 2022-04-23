@@ -63,7 +63,7 @@ const Login = () => {
                 console.log("selectMemMoney Fail...", err);
               });
 
-            navigate("loginAlert");
+            navigate("../");
           })
           .catch((err) => {
             console.log("selectMem 실패...");

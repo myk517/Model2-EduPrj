@@ -7,7 +7,8 @@ import { TextField } from "@mui/material";
 import RequestPay from "../../libraries/import/Import";
 import Select from "../../components/inputs/Select";
 import Option from "../../components/inputs/Option";
-import PayMethodData from "../../datas/ChargePayMethodData";
+import PayMethodData from "./components/ChargePayMethodData";
+import { getApiMemMoney } from "../../api/getApiMemMoney";
 
 const Charge = () => {
   const [money_blce, setMoney_blce] = useState(Number(sessionStorage.getItem("moneyBlce")));
@@ -49,11 +50,7 @@ const Charge = () => {
       navigate("/");
     } else {
       //해당 회원의 머니원장 가져오기
-      let memberSn = sessionStorage.getItem("memberSn");
-      axios //memberSn
-        .get("http://localhost:9999/api/v1/user/selectMemMoney/" + memberSn, {
-          headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-        })
+      getApiMemMoney()
         .then((res) => {
           console.log("selectMemMoney API success..");
           sessionStorage.setItem("moneyBlce", res.data.data.moneyBlce);
@@ -119,19 +116,21 @@ const Charge = () => {
           <TextBox>
             <TextField label="충전예상액" variant="standard" color="warning" value={numberWithCommas(Number(money_blce) + Number(money_charge))} readOnly />
           </TextBox>
-          <Select style={{ width: 160, flexGrow: 2 }} value={choice_payment_method} onChange={paymentMethodChange}>
-            <Option value="">결제수단 선택</Option>
-            {payment_method.map((e) => (
-              <Option key={e.pay_method} value={e.pay_method}>
-                {e.name}
-              </Option>
-            ))}
-          </Select>
-          {/* <Charge_table data={data} money_expect={money_expect} funcCharge={handler_money_charge} /> */}
-          {/* <Button variant="danger" onClick={funcCharge}>
+          <div style={{ width: "70%", textAlign: "center", marginLeft: "15%" }}>
+            <Select style={{ width: 160 }} value={choice_payment_method} onChange={paymentMethodChange}>
+              <Option value="">결제수단 선택</Option>
+              {payment_method.map((e) => (
+                <Option key={e.pay_method} value={e.pay_method}>
+                  {e.name}
+                </Option>
+              ))}
+            </Select>
+            {/* <Charge_table data={data} money_expect={money_expect} funcCharge={handler_money_charge} /> */}
+            {/* <Button variant="danger" onClick={funcCharge}>
             충전하기
           </Button> */}
-          <RequestPay value="충전하기" section="charge" price={money_charge} payMean={payMean} choice_payment_method={choice_payment_method} onClick={() => paymentTry()} />
+            <RequestPay value="충전하기" section="charge" price={money_charge} payMean={payMean} choice_payment_method={choice_payment_method} onClick={() => paymentTry()} />
+          </div>
         </InnerBox>
       </div>
     </>

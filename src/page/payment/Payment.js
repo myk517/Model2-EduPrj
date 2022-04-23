@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PayMethodData from "../../datas/PayMethodData";
+import PayMethodData from "./PayMethodData";
 import styled from "styled-components";
 import Select from "../../components/inputs/Select";
 import Option from "../../components/inputs/Option";
@@ -13,14 +13,16 @@ import RequestPay from "../../libraries/import/Import";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../../css/Common.css";
+import { getApiMemMoney } from "../../api/getApiMemMoney";
+import getApiMerchant from "../../api/httpMerchants";
+import { getApiGood } from "../../api/getApiGood";
+import { getApiGoods } from "../../api/getApiGoods";
 
 const StMoneyPaymentSection = styled.div`
   padding: 70px 20px 70px 20px;
 `;
 
-//=============================================================================================//
 const Payment = (data) => {
-  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,30 +30,16 @@ const Payment = (data) => {
       alert("로그인 먼저 해주세요!");
       navigate("/");
     } else {
-      axios
-        .get("http://localhost:9999/api/v1/user/AllMerchant", { headers: { "Content-Type": "application/json", Authorization: "Bearer " + token } })
-
+      getApiMerchant
+        .get("/") //가맹점 리스트 가져오기
         .then((res) => {
-          console.log("merchant API success..."); //res.data.data[0].merchantNm
+          console.log("getApiMerchant success..", res);
           setMerchantList(res.data.data);
-          console.log(
-            " item.merchantNm>>>",
-            //merchantTest[0].merchantNm
-            merchantList.map((data, i) => {
-              return merchantList[i].merchantNm;
-            })
-          );
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(console.log("getApiMerchant fail..."));
 
       //해당 회원의 머니원장 가져오기
-      let memberSn = sessionStorage.getItem("memberSn");
-      axios //memberSn
-        .get("http://localhost:9999/api/v1/user/selectMemMoney/" + memberSn, {
-          headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
-        })
+      getApiMemMoney()
         .then((res) => {
           console.log("selectMemMoney API success..");
           sessionStorage.setItem("moneyBlce", res.data.data.moneyBlce);
@@ -59,26 +47,6 @@ const Payment = (data) => {
         .catch((err) => {
           console.log("selectMemMoney Fail...", err);
         });
-
-      //goods테이블 select 해오기
-      // axios
-      //   .get("http://localhost:9999/api/v1/user/AllGoods", { headers: { "Content-Type": "application/json", Authorization: "Bearer " + token } })
-
-      //   .then((res) => {
-      //     console.log("AllGoods API success..."); //res.data.data[0].merchantNm
-      //     console.log(res.data.data);
-      //     setGoodsList(res.data.data); //useState에 select 해온 데이터 담기
-      //     // console.log(
-      //     //   " goodsList[i].merchantSn.merchantSn>>>",
-      //     //   goodsList[0].merchantSn.merchantSn,
-      //     //   goodsList.map((data, i) => {
-      //     //     return goodsList[i].merchantSn.merchantSn;
-      //     //   })
-      //     // );
-      //   })
-      //   .catch((err) => {
-      //     console.log("AllGoods Api Fail...", err);
-      //   });
     }
   }, []);
   //========================================================================================//
@@ -119,11 +87,8 @@ const Payment = (data) => {
     console.log("handleSelect action... e.target.value  >>> ", e.target.value);
     setSelected(e.target.value);
 
-    //쿼리스트링으로 e.target.value를 넘겨서 merchantSn이 where 절에 해당하는 goodsList를 선택하도록 api를 쏴준다.
-    axios
-      .get("http://localhost:9999/api/v1/user/selectGoodsList?merchantSn=" + e.target.value, {
-        headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") },
-      })
+    //merchantSn where 절에 해당하는 goodsList를 선택하도록 api전송
+    getApiGoods(e.target.value)
       .then((res) => {
         //해당 가맹점에 해당하는 물품들만 선택하여 goodsList의 useState에 세팅
         console.log("selectGoodsList API Success..", res.data.data);
@@ -138,14 +103,9 @@ const Payment = (data) => {
     setSelected2(e.target.value);
     sessionStorage.setItem("goodsSn", e.target.value);
 
-    //위와 마찬가지로 또 axios 날려서 where로 goodsSn에 해당하는 물품만 가져오도록 api 쏴준다.
-    axios
-      .get("http://localhost:9999/api/v1/user/selectOneProduct?goodsSn=" + e.target.value, {
-        headers: { "Content-Type": "application/json", Authorization: "Bearer " + sessionStorage.getItem("token") },
-      })
+    //위와 마찬가지로 where절 goodsSn에 해당하는 물품만 가져오도록 axios전송
+    getApiGood(e.target.value)
       .then((res) => {
-        //쿼리 스트링으로 goodsSn넘겨줌. 이 물품 번호에 해당하는 물품 선택.
-        //price의 useState로 세팅되도록 하면 된다.
         console.log("selectOneProduct API Success..", res);
         sessionStorage.setItem("goodsAmt", res.data.data.goodsAmt);
         setPrice(res.data.data.goodsAmt + res.data.data.goodsShppCost); //물품 선택하는 순간 가격의 useState 변경해준다.

@@ -8,12 +8,16 @@ import LoginAlert from "./page/LoginAlert";
 import PaymentHistory from "./page/paymentHistory/PaymentHistory";
 import Mcharge from "./libraries/import/Mcharge";
 import Mpayment from "./libraries/import/Mpayment";
+import Main from "./page/main/Main";
+import Detail from "./page/detail/Detail";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
+      <Route path="/" element={<Main />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/join" element={<Join />} />
+      <Route path="/detail/:goodsSn" element={<Detail />} />
       <Route path="/charge" element={<Charge />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/myPage" element={<PaymentHistory />} />

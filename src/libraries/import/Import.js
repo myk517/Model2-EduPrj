@@ -55,7 +55,6 @@ const RequestPay = (data) => {
                 })
                 .catch((err) => {
                   console.log("updateProductPay API fail...", err);
-                  alert("dddd", data.goodsSn);
                   alert("결제를 실패했습니다...");
                   navigate("../myPage");
                 });
@@ -192,7 +191,6 @@ const RequestPay = (data) => {
                   })
                   .catch((err) => {
                     console.log("updateProductPay API fail...", err);
-                    alert("dddd", data.goodsSn);
                     alert("결제를 실패했습니다...");
                     navigate("../myPage");
                   });

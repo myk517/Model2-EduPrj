@@ -31,6 +31,12 @@ const GlobalStyle = createGlobalStyle`
     cursor: pointer;
   }
   
+  width{
+    border: 1px;
+    max-width: 1080px;
+    width:100%;
+    margin:auto;
+  }
 `;
 
 export default GlobalStyle;

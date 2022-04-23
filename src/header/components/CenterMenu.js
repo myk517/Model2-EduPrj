@@ -13,12 +13,12 @@ const Header = () => {
     <>
       <nav>
         <ul className="header">
-          <li style={{ width: "20%", margin: "0 auto" }}>
+          <li style={{ width: "40%", margin: "0 auto" }}>
             <img
-              src="img/e4netMain.png"
+              src="https://www.e4net.net/img/custom/logo.png"
               alt="E4net"
               onClick={() => {
-                navigate("/loginAlert");
+                navigate("/");
               }}
             />
           </li>
@@ -35,11 +35,11 @@ const Header = () => {
           </li>
           {!sessionStorage.getItem("token") ? (
             <li>
-              <Link to="/">로그인</Link>
+              <Link to="/login">로그인</Link>
             </li>
           ) : (
             <li>
-              <Link to="/" onClick={logout}>
+              <Link to="/login" onClick={logout}>
                 로그아웃
               </Link>
             </li>

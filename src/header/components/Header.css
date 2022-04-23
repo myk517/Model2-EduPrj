@@ -4,9 +4,11 @@ body,div,h1,dl,dd,dt,ul,ol,li,em,p,span,button,a {margin:0;padding:0}
 nav {position: relative;}
 /* nav h1 {position: absolute; padding-top: 15px; padding-left: 10px;}
 nav h1 img {width: 80%;} */
-nav ul li img {width: 3rem; height: 70%; vertical-align: middle;}
-.header {background-color: #ef4746; height: 4rem; display: flex; padding-left: 1%; padding-right: 1%; margin-bottom: 3%;}
+
+nav ul li img {width: 7rem; height: 100%; vertical-align: middle;}
+.header {background-color: #FFFFFF; height: 4rem; display: flex; padding-left: 1%; padding-right: 1%; margin-bottom: 3%;}
 ul li {
+   text-decoration:none;
    list-style: none;
    width: 100%; 
    height: 100%;
@@ -16,7 +18,7 @@ ul li {
    margin-right: 2%;
    }
    
-ul li a {color: #fff; 
+ul li a {color: #444444; 
       text-decoration:none;
       font-size: 1rem;
       font-weight: bold; 
@@ -28,6 +30,6 @@ ul li a {color: #fff;
       white-space:nowrap;    
     }
       
-ul li a:hover {background-color: #fff; color: #000;}
+ul li a:hover {background-color: #fff; color: #ef4746; text-decoration:none;}
  
 h4{margin-right: 10px;}

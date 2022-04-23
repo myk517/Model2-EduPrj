@@ -1,24 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import CenterMenu from "./components/CenterMenu";
+import Slider from "./components/Slider";
+import PrjList from "./components/PrjList";
 
 function Main() {
   return (
-    // <StyledHeader>
-    //   <CenterMenu />
-    // </StyledHeader>
+    <>
+      <CommonCss>
+        <Slider />
+        <PrjList />
+      </CommonCss>
+    </>
   );
 }
 
-const StyledHeader = styled.header`
-  position: fixed;
-  top: 0;
+const CommonCss = styled.div`
+  border: 1px;
+  max-width: 1080px;
   width: 100%;
-  height: 65px;
-  background: white;
-
-  z-index: 999;
-  position: sticky;
+  margin: auto;
 `;
 
 export default Main;
